@@ -1,3 +1,25 @@
-{% extends 'name_generate/CA.html' %}
+{% extends 'base.html' %}
 
-{% block form_com %}Human Resources Module{% endblock %}
+
+{% block technical_list %}
+    {% for obj in tech %}
+        <li ><a href="{% url 'Technical' obj.pk %}">{{ obj.name }}</a></li>
+    {% endfor %}
+{% endblock %}
+
+{% block plan_list %}
+    <li ><a href="PP.html">项目计划</a></li>
+    <li ><a href="TP.html">测试计划</a></li>
+    <li ><a href="QP.html">质量计划</a></li>
+{% endblock %}
+
+{% block record_list %}
+    <li ><a href="Record.html">验证测试报告</a></li>
+    <li ><a href="Record.html">确认测试报告</a></li>
+    <li ><a href="Record.html">评审记录</a></li>
+    <li ><a href="Record.html">验收报告</a></li>
+    <li ><a href="Record.html">质量检查报告</a></li>
+    <li ><a href="Record.html">会议记录</a></li>
+    <li ><a href="Record.html">总结报告</a></li>
+    <li ><a href="Record.html">问题跟踪表</a></li>
+{% endblock %}
