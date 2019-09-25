@@ -11,26 +11,41 @@ class FlieClass(models.Model):
 
 class ProjectClass(models.Model):
     name = models.CharField(max_length=30)
-    flie_class = models.ForeignKey(FlieClass, on_delete=models.CASCADE)
+    flieclass = models.ForeignKey(FlieClass, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
 class Project(models.Model):
-    project_name = models.CharField(max_length=30)
-    scheme_name = models.CharField(max_length=30)
-    module_name = models.CharField(max_length=30)
-
-    project_class = models.ForeignKey(ProjectClass, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    projectclass = models.ForeignKey(ProjectClass, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
-class FileName(models.Model):
+class Scheme(models.Model):
+    name = models.CharField(max_length=30)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Module(models.Model):
+    name = models.CharField(max_length=30)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class TechniFileName(models.Model):
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True)
-    file_name = models.CharField(max_length=30)
+    scheme = models.ForeignKey(Scheme, on_delete=models.SET_NULL, null=True)
+    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=30)
     date = models.DateField(null=True, blank=True)
     author = models.CharField(max_length=30, null=True)
 

@@ -2,25 +2,34 @@ from django import forms
 from .models import *
 
 
-class PersonForm(forms.ModelForm):
+class BaseForm(forms.ModelForm):
     class Meta:
-        model = FileName
-        fields = ('name', 'birthdate', 'country', 'city')
+        model = TechniFileName
 
+        fields = ('project', 'scheme', 'module', 'name', 'date', 'author')
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-country'}),
-            'country': forms.Select(attrs={'class': 'form-country', 'style': 'width:100px;'}),
+
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['city'].queryset = City.objects.none()
 
-        if 'country' in self.data:
-            try:
-                country_id = int(self.data.get('country'))
-                self.fields['city'].queryset = City.objects.filter(country_id=country_id).order_by('name')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['city'].queryset = self.instance.country.city_set.order_by('name')
+
+class TechnicalForm(forms.ModelForm):
+    class Meta:
+        model = TechniFileName
+        fields = ('project', 'scheme', 'module', 'name', 'date', 'author')
+        widgets = {
+            'project': forms.Select(),
+            'scheme': forms.Select(),
+            'module': forms.Select(),
+            'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'author': forms.TextInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        pkProjectClass = int(kwargs.pop('ProjectClass'))
+        print(pkProjectClass)
+        super().__init__(*args, **kwargs)
+        self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
