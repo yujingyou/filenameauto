@@ -3,16 +3,16 @@
 {% block page_title %}{{ projectclass.name }}{% endblock %}
 
 {% block form_com %}
-    <form name="form1"  method="post" action="">
+    <form method="post"  id="TechnicalForm" data-cities-url="{% url 'ajax_load_scheme_module' %}" novalidate>
           <label for="ProjectName">项目名称</label>
           {{ form.project }}
-          <label for="SchemeName">方案名</label>
+          <label for="SchemeName">方案名（选填）</label>
           {{ form.scheme }}
-          <label for="ModuleName">模块名</label>
+          <label for="ModuleName">模块名（选填）</label>
           {{ form.module }}
           <label>文件名称</label>
            {{ form.name }}
-          <label>日期</label>
+          <label>日期（选填）</label>
            {{ form.date }}
           <label>作者（选填）</label>
            {{ form.author }}
@@ -22,4 +22,24 @@
           <label></label>
           <input type="text" id="result" style="border:none" value="//" />
         </form>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+        $("#id_project").change(function () {
+          var url = $("#TechnicalForm").attr("data-cities-url");
+          var id_project = $(this).val();
+
+          $.ajax({
+            url: url,
+            data: {
+              'project': id_project
+            },
+            success: function (data) {
+                var res = data.split('splite')
+                $("#id_scheme").html(res[0]);
+
+                $("#id_module").html(res[1]);
+            }
+          });
+        });
+      </script>
 {% endblock %}

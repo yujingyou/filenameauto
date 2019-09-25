@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, CreateView
 
 from name_generate.forms import BaseForm, TechnicalForm
-from name_generate.models import ProjectClass, FlieClass, TechniFileName
+from name_generate.models import ProjectClass, FlieClass, TechniFileName, Scheme, Module
 
 
 class NameGenerateView(CreateView):
@@ -46,3 +46,10 @@ class TechnicalListView(NameGenerateView):
             'ProjectClass': self.get_pk()
         })
         return kwargs
+
+
+def load_scheme_module(request):
+    project_id = request.GET.get('project')
+    schemes = Scheme.objects.filter(project_id=project_id).order_by('name')
+    modules = Module.objects.filter(project_id=project_id).order_by('name')
+    return render(request, 'name_generate/scheme_module_list_option.html', {'schemes': schemes, 'modules': modules})

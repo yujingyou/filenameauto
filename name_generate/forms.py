@@ -32,4 +32,16 @@ class TechnicalForm(forms.ModelForm):
         pkProjectClass = int(kwargs.pop('ProjectClass'))
         print(pkProjectClass)
         super().__init__(*args, **kwargs)
+        self.fields['scheme'].queryset = Scheme.objects.none()
+        self.fields['module'].queryset = Module.objects.none()
         self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
+        if 'project' in self.data:
+            try:
+                project_id = int(self.data.get('project'))
+                self.fields['scheme'].queryset = Scheme.objects.filter(project_id=project_id).order_by('name')
+                self.fields['module'].queryset = Module.objects.filter(project_id=project_id).order_by('name')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['scheme'].queryset = self.instance.project.scheme_set.order_by('name')
+            self.fields['module'].queryset = self.instance.project.module_set.order_by('name')
