@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 
 # Create your views here.
 from django.urls import reverse_lazy
@@ -21,9 +21,9 @@ class NameGenerateView(CreateView):
 
 
 class TechnicalListView(NameGenerateView):
-    template_name = 'name_generate/CA.html'
+    template_name = 'name_generate/Technical.html'
     form_class = TechnicalForm
-    success_url = reverse_lazy('NameGenerate')
+
     model = ProjectClass
 
     def get_context_data(self, **kwargs):
@@ -53,3 +53,18 @@ def load_scheme_module(request):
     schemes = Scheme.objects.filter(project_id=project_id).order_by('name')
     modules = Module.objects.filter(project_id=project_id).order_by('name')
     return render(request, 'name_generate/scheme_module_list_option.html', {'schemes': schemes, 'modules': modules})
+
+
+def generate_name(request):
+
+    if request.method == "POST" and request.POST:
+        validData = TechnicalForm(request.POST)
+        if validData.is_valid():
+            print("is_valid")
+        else:
+            print(validData.errors)
+
+    for key, val in request.GET.items():
+        print(key)
+        print(val)
+    return HttpResponse("OK")
