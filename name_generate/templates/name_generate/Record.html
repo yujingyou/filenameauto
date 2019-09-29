@@ -1,0 +1,72 @@
+{% extends 'name_generate/base_view.html' %}
+{% block technic_class  %}"nav nav-list collapse"{% endblock %}
+{% block plan_class  %}"nav nav-list collapse"{% endblock %}
+{% block record_class  %}"nav nav-list collapse in"{% endblock %}
+{% block page_title %}{{ projectclass.name }}{% endblock %}
+
+
+{% block form_com %}
+    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_name' %}" onsubmit="return commit()">
+        {% csrf_token %}
+          <label for="ProjectName">项目名称</label>
+          {{ form.project }}
+          <label>日期（选填）</label>
+           {{ form.date }}
+          <label>文件名称</label>
+           {{ form.name }}
+          <label>作者（选填）</label>
+           {{ form.author }}
+          <label></label>
+          <label></label>
+          <input name="Creat" type="button" id="click" value="生成">
+          <label></label>
+          <input type="text" id="result" style="border:none" value="//" />
+          <label></label>
+          <label></label>
+          <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
+        </form>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+      function commit()
+      {
+
+          if(confirm("您确定使用改名字并将其存入数据库吗? 确认后将跳转到主页")){
+             alert("该命名已提交到数据库");
+          }
+          else{
+              alert("您取消了提交");
+              return false;
+          }
+          return true;
+
+      }
+
+
+        $("#click").click(function () {
+             var url = $("#TechnicalForm").attr("data-generate-url");
+
+             var id_project =  $("#id_project").val();
+             var id_scheme =  $("#id_scheme").val();
+             var id_module =  $("#id_module").val();
+             var id_name =  $("#id_name").val();
+             var id_date =  $("#id_date").val();
+             var id_author =  $("#id_author").val();
+
+          $.ajax({
+            url: url,
+            data: {
+                'project': id_project,
+                'scheme': id_scheme,
+                'module': id_module,
+                'name': id_name,
+                'date': id_date,
+                'author': id_author,
+            },
+            success: function (data) {
+                $("#result").val(data)
+            }
+          });
+        });
+
+      </script>
+{% endblock %}

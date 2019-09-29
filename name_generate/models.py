@@ -97,3 +97,16 @@ class PlanFileName(models.Model):
 
     class Meta:
         verbose_name_plural = '计划类文件'
+
+
+class RecordFileName(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, verbose_name="项目")
+    date = models.DateField(null=True, blank=True, verbose_name="日期")
+    name = models.CharField(max_length=30, verbose_name="文件名")
+    author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = '记录类文件'

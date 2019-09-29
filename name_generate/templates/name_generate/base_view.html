@@ -14,12 +14,7 @@
 {% endblock %}
 
 {% block record_list %}
-    <li ><a href="Record.html">验证测试报告</a></li>
-    <li ><a href="Record.html">确认测试报告</a></li>
-    <li ><a href="Record.html">评审记录</a></li>
-    <li ><a href="Record.html">验收报告</a></li>
-    <li ><a href="Record.html">质量检查报告</a></li>
-    <li ><a href="Record.html">会议记录</a></li>
-    <li ><a href="Record.html">总结报告</a></li>
-    <li ><a href="Record.html">问题跟踪表</a></li>
+    {% for obj in record %}
+        <li ><a href="{% url 'Record' obj.pk %}">{{ obj.name }}</a></li>
+    {% endfor %}
 {% endblock %}

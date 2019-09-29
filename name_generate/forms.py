@@ -66,3 +66,21 @@ class PlanForm(forms.ModelForm):
         print(pkProjectClass)
         super().__init__(*args, **kwargs)
         self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
+
+
+class RecordForm(forms.ModelForm):
+    class Meta:
+        model = RecordFileName
+        fields = ('project', 'date', 'name', 'author')
+        widgets = {
+            'project': forms.Select(),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
+            'author': forms.TextInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        pkProjectClass = int(kwargs.pop('ProjectClass'))
+        print(pkProjectClass)
+        super().__init__(*args, **kwargs)
+        self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')

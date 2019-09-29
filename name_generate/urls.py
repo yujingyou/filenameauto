@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.NameGenerateView.as_view(), name='NameGenerate'),
     path('techn/<int:pk>', views.TechnicalListView.as_view(), name='Technical'),
     path('plan/<int:pk>', views.PlanListView.as_view(), name='Plan'),
+    path('record/<int:pk>', views.RecordListView.as_view(), name='Record'),
     path('ajax/load_scheme_module', views.load_scheme_module, name='ajax_load_scheme_module'),
     path('ajax/generate_name', views.generate_name, name='ajax_generate_name'),
 ]
