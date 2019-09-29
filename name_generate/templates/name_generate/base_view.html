@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block plan_list %}
-    <li ><a href="PP.html">项目计划</a></li>
-    <li ><a href="TP.html">测试计划</a></li>
-    <li ><a href="QP.html">质量计划</a></li>
+    {% for obj in plan %}
+        <li ><a href="{% url 'Plan' obj.pk %}">{{ obj.name }}</a></li>
+    {% endfor %}
 {% endblock %}
 
 {% block record_list %}

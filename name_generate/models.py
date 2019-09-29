@@ -69,3 +69,31 @@ class TechniFileName(models.Model):
 
     class Meta:
         verbose_name_plural = '技术类文件'
+
+
+phase_CHOICES = [
+    ('01', '1'),
+    ('02', '2'),
+    ('03', '3'),
+    ('04', '4'),
+    ('05', '5'),
+    ('06', '6'),
+    ('07', '7'),
+    ('08', '8'),
+    ('09', '9'),
+    ('10', '10'),
+]
+
+
+class PlanFileName(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, verbose_name="项目")
+    phase = models.CharField(null=True, max_length=30, blank=True, verbose_name="阶段", choices=phase_CHOICES)
+    date = models.DateField(null=True, blank=True, verbose_name="日期")
+    name = models.CharField(max_length=30, verbose_name="文件名")
+    author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = '计划类文件'

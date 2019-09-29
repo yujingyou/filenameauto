@@ -56,7 +56,7 @@
 
     <div class="sidebar-nav">
         <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>技术类文件</a>
-        <ul id="dashboard-menu" class="nav nav-list collapse in">
+        <ul id="dashboard-menu" class={% block technic_class  %}"nav nav-list collapse in"{% endblock %}>
             {% block technical_list  %}
                 <li ><a href="CA.html">竞品分析资料表</a></li>
                 <li ><a href="FP.html">产品功能性能介绍</a></li>
@@ -79,7 +79,7 @@
         </ul>
 
         <a href="#accounts-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>计划类文件</a>
-        <ul id="accounts-menu" class="nav nav-list collapse">
+        <ul id="accounts-menu" class={% block plan_class  %}"nav nav-list collapse"{% endblock %}>
             {% block plan_list  %}
                 <li ><a href="PP.html">项目计划</a></li>
                 <li ><a href="TP.html">测试计划</a></li>
@@ -90,7 +90,7 @@
 
 
         <a href="#legal-menu" class="nav-header" data-toggle="collapse"><i class="icon-legal"></i>记录类文件</a>
-        <ul id="legal-menu" class="nav nav-list collapse">
+        <ul id="legal-menu" class={% block record_class  %}"nav nav-list collapse"{% endblock %}>
             {% block record_list  %}
                 <li ><a href="Record.html">验证测试报告</a></li>
                 <li ><a href="Record.html">确认测试报告</a></li>
