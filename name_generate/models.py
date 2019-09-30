@@ -63,6 +63,9 @@ class TechniFileName(models.Model):
     name = models.CharField(max_length=30, verbose_name="文件名")
     date = models.DateField(null=True, blank=True, verbose_name="日期")
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
+    number = models.IntegerField(null=True, blank=True, verbose_name="序号")
+    version = models.CharField(max_length=30, null=True, blank=True, verbose_name="版本")
+    result = models.CharField(max_length=60, null=True, blank=True, verbose_name="文件全名")
 
     def __str__(self):
         return self.name

@@ -18,7 +18,8 @@ class BaseForm(forms.ModelForm):
 class TechnicalForm(forms.ModelForm):
     class Meta:
         model = TechniFileName
-        fields = ('project', 'scheme', 'module', 'name', 'date', 'author')
+        fields = ('project', 'scheme', 'module', 'name', 'date', 'author', 'version', 'number', 'result')
+
         widgets = {
             'project': forms.Select(),
             'scheme': forms.Select(),
@@ -26,6 +27,9 @@ class TechnicalForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'author': forms.TextInput(),
+            'version': forms.TextInput(attrs={'style': "display:none;"}),
+            'number': forms.TextInput(attrs={'style': "display:none;"}),
+            'result': forms.TextInput(attrs={'style': "border:none;cursor:text", 'readonly': 'true'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -35,8 +39,7 @@ class TechnicalForm(forms.ModelForm):
         self.fields['scheme'].queryset = Scheme.objects.none()
         self.fields['module'].queryset = Module.objects.none()
         self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
-        print('project')
-        print(self.fields['project'].queryset)
+
         if 'project' in self.data:
             try:
                 project_id = int(self.data.get('project'))

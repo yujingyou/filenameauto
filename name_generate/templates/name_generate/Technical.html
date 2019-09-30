@@ -18,11 +18,18 @@
            {{ form.date }}
           <label>作者（选填）</label>
            {{ form.author }}
-          <label></label>
+
+          <label>版本</label>
+        <select name="version" id="version">
+            <option value="debug" selected>评审</option>
+            <option value="release" >发布</option>
+        </select>
           <label></label>
           <input name="Creat" type="button" id="click" value="生成">
           <label></label>
-          <input type="text" id="result" style="border:none" value="//" />
+          {{ form.result }}
+          {{ form.version }}
+          {{ form.number }}
           <label></label>
           <label></label>
           <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
@@ -69,6 +76,16 @@
              var id_name =  $("#id_name").val();
              var id_date =  $("#id_date").val();
              var id_author =  $("#id_author").val();
+             var version =  $("#version").val();
+             if (id_project == ''){
+                 window.alert("请选择项目");
+                 return;
+             }
+
+             if (id_name == '请输入文件名称'||id_name == ''){
+                 window.alert("请输入文件名称");
+                 return;
+             }
 
           $.ajax({
             url: url,
@@ -79,9 +96,13 @@
                 'name': id_name,
                 'date': id_date,
                 'author': id_author,
+                'version':version,
             },
             success: function (data) {
-                $("#result").val(data)
+                var obj = JSON.parse(data);
+                $("#id_result").val(obj[0].result)
+                $("#id_version").val(obj[0].version)
+                $("#id_number").val(obj[0].number)
             }
           });
         });
