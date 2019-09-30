@@ -24,7 +24,7 @@ class TechnicalForm(forms.ModelForm):
             'project': forms.Select(),
             'scheme': forms.Select(),
             'module': forms.Select(),
-            'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
+            'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'author': forms.TextInput(),
             'version': forms.TextInput(attrs={'style': "display:none;"}),

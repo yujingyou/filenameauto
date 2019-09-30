@@ -6,7 +6,7 @@
 
 
 {% block form_com %}
-    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_name' %}" >
+    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_name' %}"onsubmit="return commit()" >
         {% csrf_token %}
           <label for="ProjectName">项目名称</label>
           {{ form.project }}
@@ -23,7 +23,7 @@
           <input type="text" id="result" style="border:none" value="//" />
           <label></label>
           <label></label>
-          <input class="btn btn-danger"  type="button" value="确认使用该命名"/>
+          <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
         </form>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <script>
