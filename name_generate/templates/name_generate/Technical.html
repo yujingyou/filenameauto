@@ -35,7 +35,20 @@
           <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
         </form>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-      <script>
+      <script  type="text/javascript">
+          var ddd = new Date();
+          var day =ddd.getDate();
+          if(ddd.getMonth()<10){
+                var month = "0"+(ddd.getMonth()+1); 
+          }
+          if(ddd.getDate()<10){
+               day = "0"+ddd.getDate(); 
+          }
+          var datew = ddd.getFullYear()+"-"+month+"-"+day;
+          var datew = datew.toString();
+
+          $("#id_date").val(datew);
+
       function commit()
       {
 
