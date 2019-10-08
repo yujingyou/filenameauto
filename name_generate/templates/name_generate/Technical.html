@@ -4,7 +4,7 @@
 
 
 {% block form_com %}
-    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_name' %}" onsubmit="return commit()">
+    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_tfname' %}" onsubmit="return commit()">
         {% csrf_token %}
           <label for="ProjectName">项目名称</label>
           {{ form.project }}
@@ -38,8 +38,9 @@
       <script  type="text/javascript">
           var ddd = new Date();
           var day =ddd.getDate();
-          if(ddd.getMonth()<10){
-                var month = "0"+(ddd.getMonth()+1); 
+          var month = ddd.getMonth()+1; 
+          if(ddd.getMonth() < 9){
+                month = "0"+(ddd.getMonth()+1); 
           }
           if(ddd.getDate()<10){
                day = "0"+ddd.getDate(); 
@@ -51,7 +52,13 @@
 
       function commit()
       {
+         var result =  $("#id_result").val();
 
+         if(result == '')
+         {
+             alert("请先点击生成");
+             return false;
+         }
           if(confirm("您确定使用改名字并将其存入数据库吗? 确认后将跳转到主页")){
              alert("该命名已提交到数据库");
           }

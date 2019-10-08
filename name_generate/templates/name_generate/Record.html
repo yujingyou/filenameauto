@@ -6,7 +6,7 @@
 
 
 {% block form_com %}
-    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_name' %}"onsubmit="return commit()" >
+    <form method="post"  id="TechnicalForm" data-schememodule-url="{% url 'ajax_load_scheme_module' %}" data-generate-url="{% url 'ajax_generate_rfname' %}"onsubmit="return commit()" >
         {% csrf_token %}
           <label for="ProjectName">项目名称</label>
           {{ form.project }}
@@ -20,16 +20,38 @@
           <label></label>
           <input name="Creat" type="button" id="click" value="生成">
           <label></label>
-          <input type="text" id="result" style="border:none" value="//" />
+          {{ form.result }}
+          {{ form.number }}
           <label></label>
           <label></label>
           <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
         </form>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-      <script>
+      <script  type="text/javascript">
+
+          var ddd = new Date();
+          var day =ddd.getDate();
+          var month = ddd.getMonth()+1; 
+          if(ddd.getMonth() < 9){
+                month = "0"+(ddd.getMonth()+1); 
+          }
+          if(ddd.getDate()<10){
+               day = "0"+ddd.getDate(); 
+          }
+          var datew = ddd.getFullYear()+"-"+month+"-"+day;
+          var datew = datew.toString();
+
+          $("#id_date").val(datew);
+
       function commit()
       {
+         var result =  $("#id_result").val();
 
+         if(result == '')
+         {
+             alert("请先点击生成");
+             return false;
+         }
           if(confirm("您确定使用改名字并将其存入数据库吗? 确认后将跳转到主页")){
              alert("该命名已提交到数据库");
           }
@@ -44,29 +66,33 @@
 
         $("#click").click(function () {
              var url = $("#TechnicalForm").attr("data-generate-url");
-
              var id_project =  $("#id_project").val();
-             var id_scheme =  $("#id_scheme").val();
-             var id_module =  $("#id_module").val();
              var id_name =  $("#id_name").val();
              var id_date =  $("#id_date").val();
              var id_author =  $("#id_author").val();
+             if (id_project == ''){
+                 window.alert("请选择项目");
+                 return;
+             }
 
+             if (id_name == '请输入文件名称'||id_name == ''){
+                 window.alert("请输入文件名称");
+                 return;
+             }
           $.ajax({
             url: url,
             data: {
                 'project': id_project,
-                'scheme': id_scheme,
-                'module': id_module,
                 'name': id_name,
                 'date': id_date,
                 'author': id_author,
             },
             success: function (data) {
-                $("#result").val(data)
+                var obj = JSON.parse(data);
+                $("#id_result").val(obj[0].result)
+                $("#id_number").val(obj[0].number)
             }
           });
         });
-
       </script>
 {% endblock %}

@@ -15,7 +15,7 @@ class FlieClass(models.Model):
 class ProjectClass(models.Model):
     name = models.CharField(max_length=30, verbose_name="项目类型")
     flieclass = models.ForeignKey(FlieClass, on_delete=models.CASCADE)
-
+    code = models.CharField(max_length=30,null=True,blank=True, verbose_name="代号")
     def __str__(self):
         return self.name
 
@@ -65,7 +65,7 @@ class TechniFileName(models.Model):
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
     number = models.IntegerField(null=True, blank=True, verbose_name="序号")
     version = models.CharField(max_length=30, null=True, blank=True, verbose_name="版本")
-    result = models.CharField(max_length=60, null=True, blank=True, verbose_name="文件全名")
+    result = models.CharField(max_length=50, null=False, verbose_name="文件全名")
 
     def __str__(self):
         return self.name
@@ -94,6 +94,8 @@ class PlanFileName(models.Model):
     date = models.DateField(null=True, blank=True, verbose_name="日期")
     name = models.CharField(max_length=30, verbose_name="文件名")
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
+    number = models.IntegerField(null=True, blank=True, verbose_name="序号")
+    result = models.CharField(max_length=60, null=True, verbose_name="文件全名")
 
     def __str__(self):
         return self.name
@@ -107,6 +109,8 @@ class RecordFileName(models.Model):
     date = models.DateField(null=True, blank=True, verbose_name="日期")
     name = models.CharField(max_length=30, verbose_name="文件名")
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
+    number = models.IntegerField(null=True, blank=True, verbose_name="序号")
+    result = models.CharField(max_length=60, null=True, verbose_name="文件全名")
 
     def __str__(self):
         return self.name

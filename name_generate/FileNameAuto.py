@@ -1,7 +1,7 @@
-from name_generate.models import Project, Scheme, Module, TechniFileName
+from name_generate.models import Project, Scheme, Module, TechniFileName, PlanFileName
 
 
-class TechnicalFileName:
+class TechnicalFileNameAuto:
     def __init__(self, project, name, scheme=None, module=None, date=None, author=None, number=None,
                  version=None):  # 构造函数，类接收外部传入参数全靠构造函数
         self.project = project
@@ -12,8 +12,6 @@ class TechnicalFileName:
         self.author = author
         self.number = number
         self.version = version
-        print(project)
-        print(scheme)
 
     def getFileName(self):
         result = ''
@@ -31,7 +29,7 @@ class TechnicalFileName:
         fileObj = TechniFileName.objects.filter \
             (project=self.project, scheme=self.scheme, module=self.module).order_by('-number').first()
         if fileObj is not None and fileObj is not '':
-            self.number = fileObj.number +1
+            self.number = fileObj.number + 1
         else:
             self.number = 1
 
@@ -45,15 +43,118 @@ class TechnicalFileName:
         if fileObj is not None and fileObj is not '':
             s1 = list(fileObj.version)
             if isRelease == 'debug':
-                s1[3] = str(int(s1[3])+1)
+                s1[3] = str(int(s1[3]) + 1)
             elif isRelease == 'release':
-                s1[1] = str(int(s1[1])+1)
+                s1[1] = str(int(s1[1]) + 1)
                 s1[3] = '0'
             self.version = ''.join(s1)
         else:
-            self.version = 'v0.0'
+            self.version = 'v0.1'
 
         result += '-' + self.version
+        result += ' ' + self.name
+
+        # if self.date is not None and self.date is not '':
+        #     result += '-' + self.date
+        # else:
+        #     self.date = None
+        # if self.author is not None and self.author is not '':
+        #     result += '-' + self.author
+        # else:
+        #     self.author = None
+        print(result)
+        return result
+
+
+class PlanFileNameAuto:
+    def __init__(self, project, name, phase=None, date=None, author=None, number=None
+                 ):  # 构造函数，类接收外部传入参数全靠构造函数
+        self.project = project
+        self.phase = phase
+        self.name = name
+        self.date = date
+        self.author = author
+        self.number = number
+
+    def getFileName(self):
+        result = ''
+
+        project = Project.objects.get(pk=self.project)
+        result += project.name
+
+        result += '-' + project.projectclass.code
+
+        if self.phase is not None and self.phase is not '':
+            result += '.' + self.phase
+        else:
+            self.phase = None
+        if self.date is not None and self.date is not '':
+            temp = self.date
+            temp = temp.replace('-', '')
+            result += '-' + temp
+        else:
+            self.date = None
+
+        fileObj = PlanFileName.objects.filter \
+            (project=self.project, name=self.name, date=self.date).order_by('-number').first()
+
+        if fileObj is not None and fileObj is not '':
+            self.number = fileObj.number + 1
+        else:
+            self.number = 1
+
+        print('PlanFileName num %d' % self.number)
+        result += '-' + '%02d' % self.number
+
+        result += ' ' + self.name
+
+        # if self.date is not None and self.date is not '':
+        #     result += '-' + self.date
+        # else:
+        #     self.date = None
+        # if self.author is not None and self.author is not '':
+        #     result += '-' + self.author
+        # else:
+        #     self.author = None
+        print(result)
+        return result
+
+
+class RecordFileNameAuto:
+    def __init__(self, project, name, date=None, author=None, number=None
+                 ):  # 构造函数，类接收外部传入参数全靠构造函数
+        self.project = project
+        self.name = name
+        self.date = date
+        self.author = author
+        self.number = number
+
+    def getFileName(self):
+        result = ''
+
+        project = Project.objects.get(pk=self.project)
+        result += project.name
+
+        result += '-' + project.projectclass.code
+
+        if self.date is not None and self.date is not '':
+            temp = self.date
+            temp = temp.replace('-', '')
+            result += '-' + temp
+        else:
+            self.date = None
+
+        fileObj = PlanFileName.objects.filter \
+            (project=self.project, name=self.name, date=self.date).order_by('-number').first()
+
+        if fileObj is not None and fileObj is not '':
+            self.number = fileObj.number + 1
+        else:
+            self.number = 1
+
+        print('PlanFileName num %d' % self.number)
+        result += '-' + '%02d' % self.number
+
         result += ' ' + self.name
 
         # if self.date is not None and self.date is not '':

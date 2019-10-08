@@ -6,7 +6,7 @@ from django.views.generic import ListView, TemplateView, CreateView
 
 from name_generate.forms import BaseForm, TechnicalForm, PlanForm, RecordForm
 from name_generate.models import ProjectClass, FlieClass, TechniFileName, Scheme, Module
-from name_generate.FileNameAuto import TechnicalFileName
+from name_generate.FileNameAuto import TechnicalFileNameAuto, PlanFileNameAuto, RecordFileNameAuto
 
 
 class NameGenerateView(CreateView):
@@ -114,7 +114,7 @@ def load_scheme_module(request):
     return render(request, 'name_generate/scheme_module_list_option.html', {'schemes': schemes, 'modules': modules})
 
 
-def generate_name(request):
+def generate_technical_file_name(request):
     if request.method == "POST" and request.POST:
         validData = TechnicalForm(request.POST)
         if validData.is_valid():
@@ -122,14 +122,53 @@ def generate_name(request):
         else:
             print(validData.errors)
 
-    technicalFileName = TechnicalFileName(project=request.GET.get('project'),
-                                          scheme=request.GET.get('scheme'),
-                                          module=request.GET.get('module'),
-                                          name=request.GET.get('name'),
-                                          date=request.GET.get('date'),
-                                          author=request.GET.get('author'),
-                                          version=request.GET.get('version'))
+    technicalFileName = TechnicalFileNameAuto(project=request.GET.get('project'),
+                                              scheme=request.GET.get('scheme'),
+                                              module=request.GET.get('module'),
+                                              name=request.GET.get('name'),
+                                              date=request.GET.get('date'),
+                                              author=request.GET.get('author'),
+                                              version=request.GET.get('version'))
     result = technicalFileName.getFileName()
     data = [{'number': technicalFileName.number, 'version': technicalFileName.version, 'result': result}]
+    ret = json.dumps(data)
+    return HttpResponse(ret)
+
+
+def generate_plan_file_name(request):
+    if request.method == "POST" and request.POST:
+        validData = PlanForm(request.POST)
+        if validData.is_valid():
+            print("is_valid")
+        else:
+            print(validData.errors)
+
+    planFileName = PlanFileNameAuto(project=request.GET.get('project'),
+                                    phase=request.GET.get('phase'),
+                                    name=request.GET.get('name'),
+                                    date=request.GET.get('date'),
+                                    author=request.GET.get('author'),
+                                    )
+    result = planFileName.getFileName()
+    data = [{'number': planFileName.number, 'result': result}]
+    ret = json.dumps(data)
+    return HttpResponse(ret)
+
+
+def generate_record_file_name(request):
+    if request.method == "POST" and request.POST:
+        validData = RecordForm(request.POST)
+        if validData.is_valid():
+            print("is_valid")
+        else:
+            print(validData.errors)
+
+    planFileName = RecordFileNameAuto(project=request.GET.get('project'),
+                                      name=request.GET.get('name'),
+                                      date=request.GET.get('date'),
+                                      author=request.GET.get('author'),
+                                      )
+    result = planFileName.getFileName()
+    data = [{'number': planFileName.number, 'result': result}]
     ret = json.dumps(data)
     return HttpResponse(ret)

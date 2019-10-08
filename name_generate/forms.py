@@ -55,13 +55,15 @@ class TechnicalForm(forms.ModelForm):
 class PlanForm(forms.ModelForm):
     class Meta:
         model = PlanFileName
-        fields = ('project', 'phase', 'date', 'name', 'author')
+        fields = ('project', 'phase', 'date', 'name', 'author','number','result')
         widgets = {
             'project': forms.Select(),
             'phase': forms.Select(),
             'date': forms.DateInput(attrs={'type': 'date'}),
-            'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
+            'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
             'author': forms.TextInput(),
+            'number': forms.TextInput(attrs={'style': "display:none;"}),
+            'result': forms.TextInput(attrs={'style': "border:none;cursor:text", 'readonly': 'true'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -74,12 +76,14 @@ class PlanForm(forms.ModelForm):
 class RecordForm(forms.ModelForm):
     class Meta:
         model = RecordFileName
-        fields = ('project', 'date', 'name', 'author')
+        fields = ('project', 'date', 'name', 'author','number','result')
         widgets = {
             'project': forms.Select(),
             'date': forms.DateInput(attrs={'type': 'date'}),
-            'name': forms.TextInput(attrs={'value': '请输入文件名称'}),
+            'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
             'author': forms.TextInput(),
+            'number': forms.TextInput(attrs={'style': "display:none;"}),
+            'result': forms.TextInput(attrs={'style': "border:none;cursor:text", 'readonly': 'true'}),
         }
 
     def __init__(self, *args, **kwargs):
