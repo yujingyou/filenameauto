@@ -2,7 +2,10 @@
 {% block technic_class  %}"nav nav-list collapse"{% endblock %}
 {% block plan_class  %}"nav nav-list collapse in"{% endblock %}
 {% block record_class  %}"nav nav-list collapse"{% endblock %}
-{% block page_title %}{{ projectclass.name }}{% endblock %}
+{% block page_title %}
+    {{ projectclass.name }}
+    <input type="text" name="pc" style="display:none;" maxlength="30" id="id_pc" value="{{ projectclass.pk }}">
+{% endblock %}
 
 
 {% block form_com %}
@@ -23,6 +26,7 @@
           <input name="Creat" type="button" id="click" value="生成">
           <label></label>
           {{ form.result }}
+          {{ form.projectflieclass }}
           {{ form.number }}
           <label></label>
           <label></label>
@@ -68,6 +72,8 @@
              var url = $("#TechnicalForm").attr("data-generate-url");
 
              var id_project =  $("#id_project").val();
+             $("#id_projectflieclass").val($("#id_pc").val());
+             var id_projectflieclass =  $("#id_projectflieclass").val();
              var id_phase =  $("#id_phase").val();
              var id_name =  $("#id_name").val();
              var id_date =  $("#id_date").val();
@@ -85,6 +91,7 @@
             url: url,
             data: {
                 'project': id_project,
+                'projectflieclass': id_projectflieclass,
                 'phase': id_phase,
                 'name': id_name,
                 'date': id_date,

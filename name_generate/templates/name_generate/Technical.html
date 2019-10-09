@@ -1,6 +1,9 @@
 {% extends 'name_generate/base_view.html' %}
 
-{% block page_title %}{{ projectclass.name }}{% endblock %}
+{% block page_title %}
+    {{ projectclass.name }}
+    <input type="text" name="pc" style="display:none;" maxlength="30" id="id_pc" value="{{ projectclass.pk }}">
+{% endblock %}
 
 
 {% block form_com %}
@@ -29,6 +32,7 @@
           <label></label>
           {{ form.result }}
           {{ form.version }}
+          {{ form.projectflieclass }}
           {{ form.number }}
           <label></label>
           <label></label>
@@ -89,8 +93,9 @@
 
         $("#click").click(function () {
              var url = $("#TechnicalForm").attr("data-generate-url");
-
              var id_project =  $("#id_project").val();
+             $("#id_projectflieclass").val($("#id_pc").val());
+             var id_projectflieclass =  $("#id_projectflieclass").val();
              var id_scheme =  $("#id_scheme").val();
              var id_module =  $("#id_module").val();
              var id_name =  $("#id_name").val();
@@ -111,6 +116,7 @@
             url: url,
             data: {
                 'project': id_project,
+                'projectflieclass':id_projectflieclass,
                 'scheme': id_scheme,
                 'module': id_module,
                 'name': id_name,

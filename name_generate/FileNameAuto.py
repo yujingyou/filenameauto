@@ -1,9 +1,10 @@
-from name_generate.models import Project, Scheme, Module, TechniFileName, PlanFileName
+from name_generate.models import Project, Scheme, Module, TechniFileName, PlanFileName, ProjectFlieClass
 
 
 class TechnicalFileNameAuto:
-    def __init__(self, project, name, scheme=None, module=None, date=None, author=None, number=None,
+    def __init__(self, project, name, projectflieclass, scheme=None, module=None, date=None, author=None, number=None,
                  version=None):  # 构造函数，类接收外部传入参数全靠构造函数
+        self.projectflieclass = projectflieclass
         self.project = project
         self.scheme = scheme
         self.module = module
@@ -15,19 +16,24 @@ class TechnicalFileNameAuto:
 
     def getFileName(self):
         result = ''
-        result += Project.objects.get(pk=self.project).name
+        project = Project.objects.get(pk=self.project)
+        result += project.name
 
         if self.scheme is not None and self.scheme is not '':
             result += '-' + Scheme.objects.get(pk=self.scheme).name
         else:
             self.scheme = None
+
+        result += '-' + ProjectFlieClass.objects.get(pk=self.projectflieclass).code
+
         if self.module is not None and self.module is not '':
-            result += '-' + Module.objects.get(pk=self.module).name
+            result += '.' + Module.objects.get(pk=self.module).name
         else:
             self.module = None
 
         fileObj = TechniFileName.objects.filter \
-            (project=self.project, scheme=self.scheme, module=self.module).order_by('-number').first()
+            (project=self.project, scheme=self.scheme, module=self.module,
+             projectflieclass=self.projectflieclass).order_by('-number').first()
         if fileObj is not None and fileObj is not '':
             self.number = fileObj.number + 1
         else:
@@ -38,7 +44,8 @@ class TechnicalFileNameAuto:
         isRelease = self.version
 
         fileObj = TechniFileName.objects.filter \
-            (project=self.project, scheme=self.scheme, module=self.module, name=self.name).order_by('-version').first()
+            (project=self.project, projectflieclass=self.projectflieclass, scheme=self.scheme, module=self.module,
+             name=self.name).order_by('-version').first()
 
         if fileObj is not None and fileObj is not '':
             s1 = list(fileObj.version)
@@ -67,8 +74,9 @@ class TechnicalFileNameAuto:
 
 
 class PlanFileNameAuto:
-    def __init__(self, project, name, phase=None, date=None, author=None, number=None
+    def __init__(self, project, name, projectflieclass, phase=None, date=None, author=None, number=None,
                  ):  # 构造函数，类接收外部传入参数全靠构造函数
+        self.projectflieclass = projectflieclass
         self.project = project
         self.phase = phase
         self.name = name
@@ -82,7 +90,7 @@ class PlanFileNameAuto:
         project = Project.objects.get(pk=self.project)
         result += project.name
 
-        result += '-' + project.projectclass.code
+        result += '-' + ProjectFlieClass.objects.get(pk=self.projectflieclass).code
 
         if self.phase is not None and self.phase is not '':
             result += '.' + self.phase
@@ -96,7 +104,8 @@ class PlanFileNameAuto:
             self.date = None
 
         fileObj = PlanFileName.objects.filter \
-            (project=self.project, name=self.name, date=self.date).order_by('-number').first()
+            (project=self.project, projectflieclass=self.projectflieclassm, name=self.name, date=self.date).order_by(
+            '-number').first()
 
         if fileObj is not None and fileObj is not '':
             self.number = fileObj.number + 1
@@ -121,8 +130,9 @@ class PlanFileNameAuto:
 
 
 class RecordFileNameAuto:
-    def __init__(self, project, name, date=None, author=None, number=None
+    def __init__(self, project, name, projectflieclass, date=None, author=None, number=None
                  ):  # 构造函数，类接收外部传入参数全靠构造函数
+        self.projectflieclass = projectflieclass
         self.project = project
         self.name = name
         self.date = date
@@ -135,7 +145,7 @@ class RecordFileNameAuto:
         project = Project.objects.get(pk=self.project)
         result += project.name
 
-        result += '-' + project.projectclass.code
+        result += '-' + ProjectFlieClass.objects.get(pk=self.projectflieclass).code
 
         if self.date is not None and self.date is not '':
             temp = self.date
@@ -145,7 +155,8 @@ class RecordFileNameAuto:
             self.date = None
 
         fileObj = PlanFileName.objects.filter \
-            (project=self.project, name=self.name, date=self.date).order_by('-number').first()
+            (project=self.project, projectflieclass=self.projectflieclass, name=self.name, date=self.date).order_by(
+            '-number').first()
 
         if fileObj is not None and fileObj is not '':
             self.number = fileObj.number + 1

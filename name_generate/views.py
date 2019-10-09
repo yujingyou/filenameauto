@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, CreateView
 
 from name_generate.forms import BaseForm, TechnicalForm, PlanForm, RecordForm
-from name_generate.models import ProjectClass, FlieClass, TechniFileName, Scheme, Module
+from name_generate.models import ProjectFlieClass, FlieClass, TechniFileName, Scheme, Module
 from name_generate.FileNameAuto import TechnicalFileNameAuto, PlanFileNameAuto, RecordFileNameAuto
 
 
@@ -17,9 +17,9 @@ class NameGenerateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tech'] = FlieClass.objects.get(name='技术类文件').projectclass_set.all()
-        context['plan'] = FlieClass.objects.get(name='计划类文件').projectclass_set.all()
-        context['record'] = FlieClass.objects.get(name='记录类文件').projectclass_set.all()
+        context['tech'] = FlieClass.objects.get(name='技术类文件').projectflieclass_set.all()
+        context['plan'] = FlieClass.objects.get(name='计划类文件').projectflieclass_set.all()
+        context['record'] = FlieClass.objects.get(name='记录类文件').projectflieclass_set.all()
         return context
 
 
@@ -27,11 +27,11 @@ class TechnicalListView(NameGenerateView):
     template_name = 'name_generate/Technical.html'
     form_class = TechnicalForm
 
-    model = ProjectClass
+    model = ProjectFlieClass
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['projectclass'] = ProjectClass.objects.get(pk=self.get_pk())
+        context['projectclass'] = ProjectFlieClass.objects.get(pk=self.get_pk())
         return context
 
     def get_pk(self):
@@ -55,11 +55,11 @@ class PlanListView(NameGenerateView):
     template_name = 'name_generate/plan.html'
     form_class = PlanForm
 
-    model = ProjectClass
+    model = ProjectFlieClass
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['projectclass'] = ProjectClass.objects.get(pk=self.get_pk())
+        context['projectclass'] = ProjectFlieClass.objects.get(pk=self.get_pk())
         return context
 
     def get_pk(self):
@@ -83,11 +83,11 @@ class RecordListView(NameGenerateView):
     template_name = 'name_generate/Record.html'
     form_class = RecordForm
 
-    model = ProjectClass
+    model = ProjectFlieClass
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['projectclass'] = ProjectClass.objects.get(pk=self.get_pk())
+        context['projectclass'] = ProjectFlieClass.objects.get(pk=self.get_pk())
         return context
 
     def get_pk(self):
@@ -123,6 +123,7 @@ def generate_technical_file_name(request):
             print(validData.errors)
 
     technicalFileName = TechnicalFileNameAuto(project=request.GET.get('project'),
+                                              projectflieclass=request.GET.get('projectflieclass'),
                                               scheme=request.GET.get('scheme'),
                                               module=request.GET.get('module'),
                                               name=request.GET.get('name'),
@@ -144,6 +145,7 @@ def generate_plan_file_name(request):
             print(validData.errors)
 
     planFileName = PlanFileNameAuto(project=request.GET.get('project'),
+                                    projectflieclass=request.GET.get('projectflieclass'),
                                     phase=request.GET.get('phase'),
                                     name=request.GET.get('name'),
                                     date=request.GET.get('date'),
@@ -164,6 +166,7 @@ def generate_record_file_name(request):
             print(validData.errors)
 
     planFileName = RecordFileNameAuto(project=request.GET.get('project'),
+                                      projectflieclass=request.GET.get('projectflieclass'),
                                       name=request.GET.get('name'),
                                       date=request.GET.get('date'),
                                       author=request.GET.get('author'),

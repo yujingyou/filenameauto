@@ -18,10 +18,12 @@ class BaseForm(forms.ModelForm):
 class TechnicalForm(forms.ModelForm):
     class Meta:
         model = TechniFileName
-        fields = ('project', 'scheme', 'module', 'name', 'date', 'author', 'version', 'number', 'result')
+        fields = (
+            'project', 'scheme', 'module', 'name', 'date', 'author', 'version', 'number', 'result', 'projectflieclass')
 
         widgets = {
             'project': forms.Select(),
+            'projectflieclass': forms.Select(attrs={'style': "display:none;"}),
             'scheme': forms.Select(),
             'module': forms.Select(),
             'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
@@ -38,7 +40,7 @@ class TechnicalForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['scheme'].queryset = Scheme.objects.none()
         self.fields['module'].queryset = Module.objects.none()
-        self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
+        self.fields['project'].queryset = Project.objects.all().order_by('name')
 
         if 'project' in self.data:
             try:
@@ -55,9 +57,10 @@ class TechnicalForm(forms.ModelForm):
 class PlanForm(forms.ModelForm):
     class Meta:
         model = PlanFileName
-        fields = ('project', 'phase', 'date', 'name', 'author','number','result')
+        fields = ('project', 'projectflieclass', 'phase', 'date', 'name', 'author', 'number', 'result')
         widgets = {
             'project': forms.Select(),
+            'projectflieclass': forms.Select(attrs={'style': "display:none;"}),
             'phase': forms.Select(),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
@@ -70,15 +73,17 @@ class PlanForm(forms.ModelForm):
         pkProjectClass = int(kwargs.pop('ProjectClass'))
         print(pkProjectClass)
         super().__init__(*args, **kwargs)
-        self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
+        self.fields['project'].queryset = Project.objects.all().order_by('name')
+
 
 
 class RecordForm(forms.ModelForm):
     class Meta:
         model = RecordFileName
-        fields = ('project', 'date', 'name', 'author','number','result')
+        fields = ('project', 'date', 'name', 'author', 'number', 'result', 'projectflieclass')
         widgets = {
             'project': forms.Select(),
+            'projectflieclass': forms.Select(attrs={'style': "display:none;"}),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'name': forms.TextInput(attrs={'placeholder': '请输入文件名称', 'value': ''}),
             'author': forms.TextInput(),
@@ -90,4 +95,5 @@ class RecordForm(forms.ModelForm):
         pkProjectClass = int(kwargs.pop('ProjectClass'))
         print(pkProjectClass)
         super().__init__(*args, **kwargs)
-        self.fields['project'].queryset = Project.objects.filter(projectclass_id=pkProjectClass).order_by('name')
+        self.fields['project'].queryset = Project.objects.all().order_by('name')
+

@@ -10,8 +10,8 @@ class ProjectClassAdmin(admin.ModelAdmin):
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'projectclass')
-    list_filter = (u'projectclass',)
+    list_display = ('name',)
+
 
 
 class ModuleAdmin(admin.ModelAdmin):
@@ -40,7 +40,7 @@ class RecordFileNameAdmin(admin.ModelAdmin):
 
 
 admin.site.register(FlieClass)
-admin.site.register(ProjectClass, ProjectClassAdmin)
+admin.site.register(ProjectFlieClass, ProjectClassAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Scheme, SchemeAdmin)
 admin.site.register(Module, ModuleAdmin)
