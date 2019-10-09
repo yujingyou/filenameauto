@@ -66,7 +66,7 @@ class TechniFileName(models.Model):
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
     number = models.IntegerField(null=True, blank=True, verbose_name="序号")
     version = models.CharField(max_length=30, null=True, blank=True, verbose_name="版本")
-    result = models.CharField(max_length=50, null=False, verbose_name="文件全名")
+    result = models.CharField(max_length=50, null=False, verbose_name="文件编号")
 
     def __str__(self):
         return self.name
@@ -97,7 +97,7 @@ class PlanFileName(models.Model):
     name = models.CharField(max_length=30, verbose_name="文件名")
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
     number = models.IntegerField(null=True, blank=True, verbose_name="序号")
-    result = models.CharField(max_length=60, null=True, verbose_name="文件全名")
+    result = models.CharField(max_length=60, null=True, verbose_name="文件编号")
 
     def __str__(self):
         return self.name
@@ -113,7 +113,7 @@ class RecordFileName(models.Model):
     name = models.CharField(max_length=30, verbose_name="文件名")
     author = models.CharField(max_length=30, null=True, blank=True, verbose_name="作者")
     number = models.IntegerField(null=True, blank=True, verbose_name="序号")
-    result = models.CharField(max_length=60, null=True, verbose_name="文件全名")
+    result = models.CharField(max_length=60, null=True, verbose_name="文件编号")
 
     def __str__(self):
         return self.name

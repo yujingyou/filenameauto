@@ -1,8 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from name_generate.models import *
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from name_generate.models import *
+from name_generate.utils import ImportDatabase
+import os
 
 class ProjectClassAdmin(admin.ModelAdmin):
     list_display = ('name', 'code')
@@ -11,7 +16,6 @@ class ProjectClassAdmin(admin.ModelAdmin):
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('name',)
-
 
 
 class ModuleAdmin(admin.ModelAdmin):
@@ -39,6 +43,24 @@ class RecordFileNameAdmin(admin.ModelAdmin):
     list_filter = (u'project', u'name', u'author')
 
 
+class ImportFileAdmin(admin.ModelAdmin):
+    list_display = ('name', 'file')
+
+    def save_model(self, request, obj, form, change):
+
+        re = super().save_model(request, obj, form, change)
+
+        data = request.FILES.get("file", None)
+        path = u'tmp/excel'
+        if os.path.exists(path):
+            os.remove(path)
+        path = default_storage.save(path, data)
+        print(path)
+        ImportDatabase(path)
+        return re
+
+
+
 admin.site.register(FlieClass)
 admin.site.register(ProjectFlieClass, ProjectClassAdmin)
 admin.site.register(Project, ProjectAdmin)
@@ -47,6 +69,6 @@ admin.site.register(Module, ModuleAdmin)
 admin.site.register(TechniFileName, TechniFileNameAdmin)
 admin.site.register(PlanFileName, PlanFileNameAdmin)
 admin.site.register(RecordFileName, RecordFileNameAdmin)
-
+admin.site.register(ImportFile, ImportFileAdmin)
 admin.site.site_title = "项目文件名自动生成后台数据库"
 admin.site.site_header = "项目文件名后台数据管理"

@@ -28,7 +28,7 @@
             <option value="release" >发布</option>
         </select>
           <label></label>
-          <input name="Creat" type="button" id="click" value="生成">
+          <input name="Creat" type="button" id="click" value="生成文件编号">
           <label></label>
           {{ form.result }}
           {{ form.version }}
@@ -36,7 +36,7 @@
           {{ form.number }}
           <label></label>
           <label></label>
-          <input class="btn btn-danger"  type="submit" value="确认使用该命名"/>
+          <input class="btn btn-danger"  type="submit" value="确认使用文件编号"/>
         </form>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <script  type="text/javascript">
@@ -60,10 +60,10 @@
 
          if(result == '')
          {
-             alert("请先点击生成");
+             alert("请先点击生成文件编号");
              return false;
          }
-          if(confirm("您确定使用改名字并将其存入数据库吗? 确认后将跳转到主页")){
+          if(confirm("您确定使用该文件编号并将其存入数据库吗? 确认后将跳转到主页")){
              alert("该命名已提交到数据库");
           }
           else{
