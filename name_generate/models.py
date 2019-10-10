@@ -1,3 +1,5 @@
+from datetime import timezone
+
 from django.db import models
 
 
@@ -26,6 +28,7 @@ class ProjectFlieClass(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=30, verbose_name="项目名")
+
     def __str__(self):
         return self.name
 
@@ -123,8 +126,9 @@ class RecordFileName(models.Model):
 
 
 class ImportFile(models.Model):
-    file = models.FileField(upload_to='File')
+    file = models.FileField(upload_to='static', verbose_name=u'请上传正确格式excel文件')
     name = models.CharField(max_length=50, verbose_name=u'文件名')
+    datetime = models.DateTimeField(null=True, blank=True, verbose_name="时间", auto_now=True)
 
     class Meta:
         ordering = ['name']

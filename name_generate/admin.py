@@ -5,9 +5,11 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from filenameauto.settings import MEDIA_ROOT
 from name_generate.models import *
 from name_generate.utils import ImportDatabase
 import os
+
 
 class ProjectClassAdmin(admin.ModelAdmin):
     list_display = ('name', 'code')
@@ -44,21 +46,24 @@ class RecordFileNameAdmin(admin.ModelAdmin):
 
 
 class ImportFileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'file')
+    list_display = ('name', 'file', 'datetime')
+    readonly_fields = ('datetime',)
 
     def save_model(self, request, obj, form, change):
-
+        print(request.FILES)
+        print(request.POST)
         re = super().save_model(request, obj, form, change)
-
         data = request.FILES.get("file", None)
+        if data is None:
+            return re
         path = u'tmp/excel'
-        if os.path.exists(path):
-            os.remove(path)
+        allPath = MEDIA_ROOT + '/' + path
+        print(allPath)
+        if os.path.exists(allPath):
+            os.remove(allPath)
         path = default_storage.save(path, data)
-        print(path)
-        ImportDatabase(path)
+        ImportDatabase(allPath)
         return re
-
 
 
 admin.site.register(FlieClass)
