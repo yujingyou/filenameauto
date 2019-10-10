@@ -1,5 +1,3 @@
-from idlelib.idle_test.test_browser import module
-
 import xlrd, datetime
 
 from name_generate.models import TechniFileName, PlanFileName, RecordFileName, ProjectFlieClass, Project, Scheme, Module
