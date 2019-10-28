@@ -48,10 +48,10 @@ def parseTechniFileName(item):
     filedict['number'] = int(listConde[pos])
     pos += 1
     filedict['version'] = listConde[pos]
-    filedict['result'] = fileCode
     filedict['date'] = date(item.get(tableHead[2], None))
     filedict['author'] = item.get(tableHead[3], None)
     filedict['name'] = item.get(tableHead[0], None)
+    filedict['result'] = fileCode + ' ' + filedict['name']
     print(filedict)
 
     obj = TechniFileName(project=filedict['project'], scheme=filedict['scheme'], module=filedict['module'],
@@ -83,10 +83,11 @@ def parsePlanFileName(item):
     else:
         filedict['number'] = 1
 
-    filedict['result'] = fileCode
+
     filedict['date'] = date(item.get(tableHead[2], None))
     filedict['author'] = item.get(tableHead[3], None)
     filedict['name'] = item.get(tableHead[0], None)
+    filedict['result'] = fileCode + ' ' + filedict['name']
     print(filedict)
     obj = PlanFileName(project=filedict['project'], phase=filedict['phase'],
                        projectflieclass=filedict['projectflieclass'], number=filedict['number'],
@@ -114,10 +115,11 @@ def parseRecordFileName(item):
     else:
         filedict['number'] = 1
 
-    filedict['result'] = fileCode
+
     filedict['date'] = date(item.get(tableHead[2], None))
     filedict['author'] = item.get(tableHead[3], None)
     filedict['name'] = item.get(tableHead[0], None)
+    filedict['result'] = fileCode + ' ' + filedict['name']
     print(filedict)
     obj = RecordFileName(project=filedict['project'],
                          projectflieclass=filedict['projectflieclass'], number=filedict['number'],

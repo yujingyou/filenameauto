@@ -50,8 +50,7 @@ class ImportFileAdmin(admin.ModelAdmin):
     readonly_fields = ('datetime',)
 
     def save_model(self, request, obj, form, change):
-        print(request.FILES)
-        print(request.POST)
+
         re = super().save_model(request, obj, form, change)
         data = request.FILES.get("file", None)
         if data is None:

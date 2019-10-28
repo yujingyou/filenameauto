@@ -59,7 +59,7 @@ class TechnicalFileNameAuto:
             self.version = 'v0.1'
 
         result += '-' + self.version
-        #result += ' ' + self.name
+        result += ' ' + self.name
 
         # if self.date is not None and self.date is not '':
         #     result += '-' + self.date
@@ -115,7 +115,7 @@ class PlanFileNameAuto:
         print('PlanFileName num %d' % self.number)
         result += '-' + '%02d' % self.number
 
-        #result += ' ' + self.name
+        result += ' ' + self.name
 
         # if self.date is not None and self.date is not '':
         #     result += '-' + self.date
@@ -166,7 +166,7 @@ class RecordFileNameAuto:
         print('PlanFileName num %d' % self.number)
         result += '-' + '%02d' % self.number
 
-        #result += ' ' + self.name
+        result += ' ' + self.name
 
         # if self.date is not None and self.date is not '':
         #     result += '-' + self.date
