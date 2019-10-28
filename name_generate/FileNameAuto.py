@@ -104,7 +104,7 @@ class PlanFileNameAuto:
             self.date = None
 
         fileObj = PlanFileName.objects.filter \
-            (project=self.project, projectflieclass=self.projectflieclassm, name=self.name, date=self.date).order_by(
+            (project=self.project, projectflieclass=self.projectflieclass, name=self.name, date=self.date).order_by(
             '-number').first()
 
         if fileObj is not None and fileObj is not '':
